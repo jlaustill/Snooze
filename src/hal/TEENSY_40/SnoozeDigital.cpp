@@ -1,6 +1,6 @@
 /***********************************************************************************
  *  SnoozeDigital.h
- *  Teensy 3.2
+ *  Teensy 4.X
  *
  * Purpose: Digital Pin Driver
  *
@@ -21,14 +21,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    extern void wakeup_isr( void );
-    extern int nvic_execution_priority( void );
+    extern void wakeup_isr(void);
+    extern int nvic_execution_priority(void);
 #ifdef __cplusplus
 }
 #endif
 
 uint64_t SnoozeDigital::isr_pin = 0;
 volatile uint8_t SnoozeDigital::sleep_type = 0;
+
 /*******************************************************************************
  *  Same as Arduino pinMode + isr trigger type
  *
@@ -38,11 +39,11 @@ volatile uint8_t SnoozeDigital::sleep_type = 0;
  *
  *  @return Teensy Pin
  *******************************************************************************/
-int SnoozeDigital::pinMode( int _pin, int mode, int type ) {
-    if ( _pin >= 33 ) return -1;
+int SnoozeDigital::pinMode(int _pin, int mode, int type) {
+    if (_pin >= 33) return -1;
     isUsed = true;
-    pin            = pin | ( ( uint64_t )0x01 << _pin );// save pin
-    irqType[_pin]  = type;// save type
+    pin = pin | ((uint64_t)0x01 << _pin);// save pin
+    irqType[_pin] = type;// save type
     irqType[_pin] |= mode << 4;// save mode
     return _pin;
 }
